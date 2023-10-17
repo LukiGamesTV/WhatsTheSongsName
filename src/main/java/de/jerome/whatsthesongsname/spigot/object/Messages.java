@@ -17,6 +17,7 @@ public enum Messages {
 
     LEAVE_NOT_IN_GAME("leave.notInGame"),
     LEAVE_LEFT("leave.left"),
+    LEAVE_PLAYS_EXCEEDED("leave.playsExceeded"),
 
     RELOAD_SUCCESS("reload.success"),
     RELOAD_FAILED("reload.failed"),

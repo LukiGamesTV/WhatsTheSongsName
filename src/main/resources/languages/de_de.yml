@@ -16,6 +16,7 @@ join:
 leave:
   notInGame: "&cDu bist nicht im Spiel"
   left: "&aDu hast das Spiel erfolgreich verlassen"
+  playsExceeded: "&cDu hast deine heutigen Versuche aufgebraucht"
 reload:
   success: "&aAlle Dateien wurden erfolgreich neu geladen"
   failed: "&cReload ist derzeit nicht implementiert. Starte deinen Server neu!"
@@ -34,7 +35,7 @@ stats:
     playerNotFound: "&cDer Spieler &b{playerName} &ckonnte nicht gefunden werden!"
 choseEvaluation:
   songName: "&9Der Song hieß &b{songTitle} &9von &b{songAuthor}"
-  correctAnswer: "&aDeine Antwort war richtig!"
+  correctAnswer: "&aDeine Antwort war richtig! Dafür hast du {snowballs} Schnebälle erhalten."
   wrongAnswer: "&cDeine Antwort war falsch!"
   noAnswer: "&cDu hast keine Antwort abgegeben!"
 submitAnswer: "&9Du hast den Song &b{songTitle} ausgewählt"

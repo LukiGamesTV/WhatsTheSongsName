@@ -16,6 +16,7 @@ join:
 leave:
   notInGame: "&cYou are not in the game"
   left: "&aYou have successfully left the game"
+  playsExceeded: "&cYou have reached today's play rounds limit"
 reload:
   success: "&aAll files have been reloaded"
   failed: "&cThere was an error reloading the plugin. Please contact an administrator and, if necessary, the developer of the plugin."

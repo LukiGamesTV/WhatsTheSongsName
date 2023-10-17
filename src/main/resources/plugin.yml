@@ -19,6 +19,8 @@ commands:
     usage: /<command> help
     aliases:
       - wtsn
+  songraten:
+    description: Start song quiz
 
 permissions:
   wtsn.*:

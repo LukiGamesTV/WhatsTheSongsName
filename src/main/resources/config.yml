@@ -1,7 +1,10 @@
 musicPlayTime: 30
 choseTime: 15
+roundLimit: 5
 
 reward:
+  snowballs:
+    correct: 10
   vault:
     enabled: false
     correct: 10

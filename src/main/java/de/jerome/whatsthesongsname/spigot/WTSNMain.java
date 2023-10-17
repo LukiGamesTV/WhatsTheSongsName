@@ -1,5 +1,6 @@
 package de.jerome.whatsthesongsname.spigot;
 
+import de.jerome.whatsthesongsname.spigot.command.SongratenCommand;
 import de.jerome.whatsthesongsname.spigot.command.WTSNCommand;
 import de.jerome.whatsthesongsname.spigot.listener.InventoryListener;
 import de.jerome.whatsthesongsname.spigot.listener.PlayerListener;
@@ -79,6 +80,7 @@ public class WTSNMain extends JavaPlugin {
 
     private void registerCommands() {
         new WTSNCommand();
+        new SongratenCommand();
     }
 
     private void registerListeners() {

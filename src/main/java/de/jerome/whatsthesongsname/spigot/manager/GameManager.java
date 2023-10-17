@@ -73,6 +73,13 @@ public class GameManager {
     }
 
     private void startMusic() {
+        for(int i = 0; i < gamePlayers.size(); i++){
+            Player player = gamePlayers.get(i);
+            if(WTSNMain.getInstance().getPlayerManager().getPlayer(player).getPlays() >= WTSNMain.getInstance().getConfigManager().getRoundLimit()){
+                player.sendMessage(languagesManager.getMessage(player.getLocale(), Messages.LEAVE_PLAYS_EXCEEDED));
+                leaveGame(player);
+            }
+        }
         RadioSongPlayer radioSongPlayer = WTSNMain.getInstance().getSongManager().getRadioSongPlayer();
         if (radioSongPlayer == null) return;
 
@@ -180,7 +187,9 @@ public class GameManager {
 
             // Correct answer
             WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addGuessedCorrectly();
-            gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_CORRECT_ANSWER));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "snowballs " + gamePlayer.getName() + " " + WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect());
+            WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addPlay();
+            gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_CORRECT_ANSWER).replaceAll("\\{snowballs}", WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect() + ""));
         }
 
         // Disables inventory closing again
@@ -190,6 +199,7 @@ public class GameManager {
         playerAnswers.clear();
 
         // Stats Musik and repeat all
+
         startMusic();
     }
 

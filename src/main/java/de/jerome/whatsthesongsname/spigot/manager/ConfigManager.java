@@ -13,7 +13,7 @@ public class ConfigManager {
 
     // config.yml
     private String languagesDefault, bungeecordLobby, databaseHost, databaseDatabase, databaseUsername, databasePassword;
-    private int databasePort, musicPlayTime, choseTime, rewardVaultCorrect, rewardVaultWrong;
+    private int databasePort, musicPlayTime, choseTime, rewardVaultCorrect, rewardVaultWrong, roundLimit, rewardSnowballsCorrect;
     private boolean rewardCommandEnabled, rewardVaultEnabled, bungeecordEnable, databaseEnable;
     private List<String> languagesLanguages, rewardCommandCorrect, rewardCommandWrong;
 
@@ -32,6 +32,9 @@ public class ConfigManager {
     public void reloadConfig() {
         musicPlayTime = configYAML.getInt("musicPlayTime");
         choseTime = configYAML.getInt("choseTime");
+        roundLimit = configYAML.getInt("roundLimit");
+
+        rewardSnowballsCorrect = configYAML.getInt("reward.snowballs.correct");
 
         rewardCommandEnabled = configYAML.getBoolean("reward.command.enabled");
         rewardCommandCorrect = configYAML.getStringList("reward.command.correct");
@@ -125,5 +128,12 @@ public class ConfigManager {
 
     public @NotNull List<String> getRewardCommandWrong() {
         return rewardCommandWrong;
+    }
+
+    public int getRoundLimit() {
+        return roundLimit;
+    }
+    public int getRewardSnowballsCorrect() {
+        return rewardSnowballsCorrect;
     }
 }

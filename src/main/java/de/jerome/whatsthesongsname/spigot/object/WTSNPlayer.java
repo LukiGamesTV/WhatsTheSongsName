@@ -22,7 +22,7 @@ public class WTSNPlayer {
     private final UUID uuid;
     private final OfflinePlayer offlinePlayer;
     private String name;
-    private int points, guessedCorrectly, guessedWrong;
+    private int points, guessedCorrectly, guessedWrong, plays;
 
     public WTSNPlayer(UUID uuid) {
         this.uuid = uuid;
@@ -48,8 +48,9 @@ public class WTSNPlayer {
                         points = resultSet.getInt("POINTS");
                         guessedCorrectly = resultSet.getInt("GUESSED_CORRECTLY");
                         guessedWrong = resultSet.getInt("GUESSED_WRONG");
+                        plays = resultSet.getInt("PLAYS");
                     } else
-                        WTSNMain.getInstance().getDatabaseManager().getStatement().executeUpdate("INSERT INTO wtsn_players (UUID, POINTS, GUESSED_CORRECTLY, GUESSED_WRONG) VALUES ('" + uuid + "', " + points + ", " + guessedCorrectly + ", " + guessedCorrectly + ")");
+                        WTSNMain.getInstance().getDatabaseManager().getStatement().executeUpdate("INSERT INTO wtsn_players (UUID, POINTS, GUESSED_CORRECTLY, GUESSED_WRONG, PLAYS) VALUES ('" + uuid + "', " + points + ", " + guessedCorrectly + ", " + guessedCorrectly + ", " + plays + ")");
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -58,6 +59,7 @@ public class WTSNPlayer {
             points = players.getInt(uuid + ".points");
             guessedCorrectly = players.getInt(uuid + ".guessedCorrectly");
             guessedWrong = players.getInt(uuid + ".guessedWrong");
+            plays = players.getInt(uuid + ".plays");
         }
     }
 
@@ -71,9 +73,10 @@ public class WTSNPlayer {
                         resultSet.updateInt("POINTS", points);
                         resultSet.updateInt("GUESSED_CORRECTLY", guessedCorrectly);
                         resultSet.updateInt("GUESSED_WRONG", guessedWrong);
+                        resultSet.updateInt("PLAYS", plays);
                         resultSet.updateRow();
                     } else
-                        WTSNMain.getInstance().getDatabaseManager().getStatement().executeUpdate("INSERT INTO wtsn_players (UUID, POINTS, GUESSED_CORRECTLY, GUESSED_WRONG) VALUES ('" + uuid + "', " + points + ", " + guessedCorrectly + ", " + guessedCorrectly + ")");
+                        WTSNMain.getInstance().getDatabaseManager().getStatement().executeUpdate("INSERT INTO wtsn_players (UUID, POINTS, GUESSED_CORRECTLY, GUESSED_WRONG, PLAYS) VALUES ('" + uuid + "', " + points + ", " + guessedCorrectly + ", " + guessedCorrectly + ", " + plays + ")");
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -82,6 +85,7 @@ public class WTSNPlayer {
             players.set(uuid + ".points", points);
             players.set(uuid + ".guessedCorrectly", guessedCorrectly);
             players.set(uuid + ".guessedWrong", guessedWrong);
+            players.set(uuid + ".plays", plays);
         }
     }
 
@@ -161,5 +165,13 @@ public class WTSNPlayer {
             vaultManager.getEconomy().withdrawPlayer(offlinePlayer, WTSNMain.getInstance().getConfigManager().getRewardVaultWrong());
 
         this.guessedWrong++;
+    }
+
+    public int getPlays() {
+        return plays;
+    }
+
+    public void addPlay(){
+        plays++;
     }
 }
