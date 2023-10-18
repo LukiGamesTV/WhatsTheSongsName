@@ -25,6 +25,7 @@ public enum Messages {
     STATS_OWN("stats.own"),
     STATS_OTHER_SUCCESS("stats.other.success"),
     STATS_OTHER_PLAYER_NOT_FOUND("stats.other.playerNotFound"),
+    STATS_PLAYS_RESET("stats.plays.reset"),
 
     CHOSE_EVALUATION_SONG_NAME("choseEvaluation.songName"),
     CHOSE_EVALUATION_CORRECT_ANSWER("choseEvaluation.correctAnswer"),

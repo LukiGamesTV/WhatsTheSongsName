@@ -5,10 +5,14 @@ import de.jerome.whatsthesongsname.spigot.command.WTSNCommand;
 import de.jerome.whatsthesongsname.spigot.listener.InventoryListener;
 import de.jerome.whatsthesongsname.spigot.listener.PlayerListener;
 import de.jerome.whatsthesongsname.spigot.manager.*;
+import de.jerome.whatsthesongsname.spigot.object.Messages;
 import de.jerome.whatsthesongsname.spigot.util.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 public class WTSNMain extends JavaPlugin {
 
@@ -26,6 +30,8 @@ public class WTSNMain extends JavaPlugin {
 
     private VaultManager vaultManager;
 
+    private LocalDate today;
+
     public static @NotNull WTSNMain getInstance() {
         return instance;
     }
@@ -36,6 +42,17 @@ public class WTSNMain extends JavaPlugin {
         registerCommands();
         registerListeners();
         registerChannel();
+
+        Bukkit.getAsyncScheduler().runAtFixedRate(getInstance(), scheduledTask -> {
+            LocalDate now = LocalDate.now();
+            if(today.isBefore(now)){
+                today = now;
+                WTSNMain.getInstance().getPlayerManager().loadPlayers();
+                WTSNMain.getInstance().getPlayerManager().resetPlaysForAll();
+                WTSNMain.getInstance().getPlayerManager().unloadAllOfflinePlayers();
+                Bukkit.getConsoleSender().sendMessage(getLanguagesManager().getMessage("de_de", Messages.STATS_PLAYS_RESET));
+            }
+        }, 1L, 1L, TimeUnit.MINUTES);
     }
 
     @Override
@@ -66,6 +83,7 @@ public class WTSNMain extends JavaPlugin {
 
     private void makeInstances() {
         instance = this;
+        today = LocalDate.now();
         uuidFetcher = new UUIDFetcher();
         fileManager = new FileManager();
         configManager = new ConfigManager(); // FileManager

@@ -137,7 +137,7 @@ public class WTSNPlayer {
         // command reward
         if (WTSNMain.getInstance().getConfigManager().isRewardCommandEnabled())
             for (String command : WTSNMain.getInstance().getConfigManager().getRewardCommandCorrect())
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%playerName%", Objects.requireNonNull(getName())));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%playerName%", Objects.requireNonNull(getName())).replaceAll("%snowballs%", String.valueOf(WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect())));
 
         // vault reward
         if (vaultManager.isEconomyEnabled() && vaultManager.getEconomy() != null)
@@ -173,5 +173,9 @@ public class WTSNPlayer {
 
     public void addPlay(){
         plays++;
+    }
+
+    public void resetPlays(){
+        plays = 0;
     }
 }

@@ -8,12 +8,13 @@ import de.jerome.whatsthesongsname.spigot.object.Messages;
 import de.jerome.whatsthesongsname.spigot.object.WTSNPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class WTSNCommand implements CommandExecutor, TabExecutor {
 
@@ -141,6 +142,19 @@ public class WTSNCommand implements CommandExecutor, TabExecutor {
                         .replaceAll("\\{plays}", String.valueOf(WTSNPlayer.getPlays())));
                 return true;
             }
+
+            if(args[0].equalsIgnoreCase("resetplays")){
+                if (!commandSender.hasPermission("wtsn.plays.reset")) {
+                    sendSyntaxMessage(commandSender, commandName);
+                    return true;
+                }
+
+                WTSNMain.getInstance().getPlayerManager().loadPlayers();
+                WTSNMain.getInstance().getPlayerManager().resetPlaysForAll();
+                WTSNMain.getInstance().getPlayerManager().unloadAllOfflinePlayers();
+                commandSender.sendMessage("§aAlle Versuche zurückgesetzt!");
+                return true;
+            }
         }
 
         if (args.length == 2) {
@@ -197,6 +211,7 @@ public class WTSNCommand implements CommandExecutor, TabExecutor {
             }
             if (commandSender.hasPermission("wtsn.reload")) tab.add("reload");
             if (commandSender.hasPermission("wtsn.stats")) tab.add("stats");
+            if (commandSender.hasPermission("wtsn.plays.reset")) tab.add("resetplays");
         }
 
         if (args.length == 2)

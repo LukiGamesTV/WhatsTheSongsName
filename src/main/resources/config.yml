@@ -10,11 +10,11 @@ reward:
     correct: 10
     wrong: 5
   command:
-    enabled: false
+    enabled: true
     correct:
-      - "give %playerName% diamond 1"
+      - "snowballs add %playerName% %snowballs%"
     wrong:
-      - "give %playerName% dirt 1"
+      -
 
 languages:
   default: "en_us"

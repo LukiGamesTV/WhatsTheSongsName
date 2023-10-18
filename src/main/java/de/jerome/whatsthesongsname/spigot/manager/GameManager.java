@@ -189,7 +189,6 @@ public class GameManager {
 
             // Correct answer
             WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addGuessedCorrectly();
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "snowballs " + gamePlayer.getName() + " " + WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect());
             gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_CORRECT_ANSWER).replaceAll("\\{snowballs}", WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect() + ""));
         }
 

@@ -35,6 +35,8 @@ stats:
       &8- &6Wrong guessing songs: &b{playerGuessedWrong}
       &8- &6Played rounds: &b{plays}
     playerNotFound: "&cThe player &b{playerName} &ccould not be found!"
+  plays:
+    reset: "&aPlay Rounds from all players resettet."
 choseEvaluation:
   songName: "&9The song was called &b{songTitle} &9by &b{songAuthor}"
   correctAnswer: "&aYour answer was correct! You got {snowballs} Snowballs."

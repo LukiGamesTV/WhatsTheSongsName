@@ -40,3 +40,6 @@ permissions:
           wtsn.stats.others:
             description: Permission to view the stats of others
             default: op
+      wtsn.plays.reset:
+        description: Permission to reset plays of all players
+        default: op

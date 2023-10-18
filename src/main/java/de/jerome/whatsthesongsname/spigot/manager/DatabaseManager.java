@@ -46,7 +46,7 @@ public class DatabaseManager {
         try {
             Statement statement = getStatement();
             if (statement == null) return;
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS wtsn_players (UUID VARCHAR (37), POINTS INT, GUESSED_CORRECTLY INT, GUESSED_WRONG INT, PRIMARY KEY (UUID))");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS wtsn_players (UUID VARCHAR (37), POINTS INT, GUESSED_CORRECTLY INT, GUESSED_WRONG INT, PLAYS INT,PRIMARY KEY (UUID))");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

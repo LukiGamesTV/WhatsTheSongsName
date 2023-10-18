@@ -35,6 +35,8 @@ stats:
       &8- &6Falsch erratende Songs: &b{playerGuessedWrong}
       &8- &6Gespielte Runden: &b{plays}
     playerNotFound: "&cDer Spieler &b{playerName} &ckonnte nicht gefunden werden!"
+  plays:
+    reset: "&aDie Versuche von allen Spielern wurden zurückgesetzt."
 choseEvaluation:
   songName: "&9Der Song hieß &b{songTitle} &9von &b{songAuthor}"
   correctAnswer: "&aDeine Antwort war richtig! Dafür hast du {snowballs} Schnebälle erhalten."

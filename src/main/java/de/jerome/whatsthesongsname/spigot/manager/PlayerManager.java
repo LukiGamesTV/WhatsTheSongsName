@@ -2,7 +2,9 @@ package de.jerome.whatsthesongsname.spigot.manager;
 
 import de.jerome.whatsthesongsname.spigot.WTSNMain;
 import de.jerome.whatsthesongsname.spigot.object.WTSNPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -15,10 +17,9 @@ public class PlayerManager {
 
     public PlayerManager() {
         players = new HashMap<>();
-        loadPlayers();
     }
 
-    private void loadPlayers() {
+    public void loadPlayers() {
         for (String playerUUID : WTSNMain.getInstance().getFileManager().getPlayers().getFileConfiguration().getKeys(false))
             getPlayer(UUID.fromString(playerUUID));
     }
@@ -42,5 +43,18 @@ public class PlayerManager {
         UUID uuid = WTSNMain.getInstance().getUuidFetcher().getUUID(name);
         if (uuid == null) return null;
         return getPlayer(uuid);
+    }
+
+    public void unloadAllOfflinePlayers() {
+        for (WTSNPlayer wtsnPlayer : players.values()) {
+            if (Bukkit.getOfflinePlayer(wtsnPlayer.getUuid()).isOnline()) continue;
+            wtsnPlayer.save();
+            players.remove(wtsnPlayer.getUuid());
+        }
+    }
+
+    public void resetPlaysForAll(){
+        for(WTSNPlayer wtsnPlayer : players.values())
+            wtsnPlayer.resetPlays();
     }
 }
