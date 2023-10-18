@@ -167,6 +167,8 @@ public class GameManager {
                     break;
                 }
 
+            WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addPlay();
+
             gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_SONG_NAME)
                     .replaceAll("\\{songTitle}", song.getTitle())
                     .replaceAll("\\{songAuthor}", song.getAuthor()));
@@ -188,7 +190,6 @@ public class GameManager {
             // Correct answer
             WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addGuessedCorrectly();
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "snowballs " + gamePlayer.getName() + " " + WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect());
-            WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addPlay();
             gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_CORRECT_ANSWER).replaceAll("\\{snowballs}", WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect() + ""));
         }
 
