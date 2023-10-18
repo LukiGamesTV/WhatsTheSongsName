@@ -137,7 +137,8 @@ public class WTSNCommand implements CommandExecutor, TabExecutor {
                 commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.STATS_OWN)
                         .replaceAll("\\{playerPoints}", String.valueOf(WTSNPlayer.getPoints()))
                         .replaceAll("\\{playerGuessedCorrectly}", String.valueOf(WTSNPlayer.getGuessedCorrectly()))
-                        .replaceAll("\\{playerGuessedWrong}", String.valueOf(WTSNPlayer.getGuessedWrong())));
+                        .replaceAll("\\{playerGuessedWrong}", String.valueOf(WTSNPlayer.getGuessedWrong()))
+                        .replaceAll("\\{plays}", String.valueOf(WTSNPlayer.getPlays())));
                 return true;
             }
         }
@@ -164,7 +165,8 @@ public class WTSNCommand implements CommandExecutor, TabExecutor {
                         .replaceAll("\\{playerName}", String.valueOf(wtsnTarget.getName()))
                         .replaceAll("\\{playerPoints}", String.valueOf(wtsnTarget.getPoints()))
                         .replaceAll("\\{playerGuessedCorrectly}", String.valueOf(wtsnTarget.getGuessedCorrectly()))
-                        .replaceAll("\\{playerGuessedWrong}", String.valueOf(wtsnTarget.getGuessedWrong())));
+                        .replaceAll("\\{playerGuessedWrong}", String.valueOf(wtsnTarget.getGuessedWrong()))
+                        .replaceAll("\\{plays}", String.valueOf(wtsnTarget.getPlays())));
                 return true;
             }
         }

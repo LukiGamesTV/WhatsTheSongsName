@@ -26,16 +26,18 @@ stats:
     &8- &6Points: &b{playerPoints}
     &8- &6Right guessing songs: &b{playerGuessedCorrectly}
     &8- &6Wrong guessing songs: &b{playerGuessedWrong}
+    &6- &6Played rounds: &b{plays}
   other:
     success: |-
       &9Statistics of &b{playerName}&9:
       &8- &6Points: &b{playerPoints}
       &8- &6Right guessing songs: &b{playerGuessedCorrectly}
       &8- &6Wrong guessing songs: &b{playerGuessedWrong}
+      &8- &6Played rounds: &b{plays}
     playerNotFound: "&cThe player &b{playerName} &ccould not be found!"
 choseEvaluation:
   songName: "&9The song was called &b{songTitle} &9by &b{songAuthor}"
-  correctAnswer: "&aYour answer was correct!"
+  correctAnswer: "&aYour answer was correct! You got {snowballs} Snowballs."
   wrongAnswer: "&cYour answer was wrong!"
   noAnswer: "&cYou have not submitted an answer!"
 submitAnswer: "&9You have selected the song &b{songTitle}"

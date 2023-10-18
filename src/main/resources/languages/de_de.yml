@@ -26,12 +26,14 @@ stats:
     &8- &6Punkte: &b{playerPoints}
     &8- &6Richtig erratende Songs: &b{playerGuessedCorrectly}
     &8- &6Falsch erratende Songs: &b{playerGuessedWrong}
+    &8- &6Gespielte Runden: &b{plays}
   other:
     success: |-
       &9Stats von &b{playerName}&9:
       &8- &6Punkte: &b{playerPoints}
       &8- &6Richtig erratende Songs: &b{playerGuessedCorrectly}
       &8- &6Falsch erratende Songs: &b{playerGuessedWrong}
+      &8- &6Gespielte Runden: &b{plays}
     playerNotFound: "&cDer Spieler &b{playerName} &ckonnte nicht gefunden werden!"
 choseEvaluation:
   songName: "&9Der Song hieß &b{songTitle} &9von &b{songAuthor}"
