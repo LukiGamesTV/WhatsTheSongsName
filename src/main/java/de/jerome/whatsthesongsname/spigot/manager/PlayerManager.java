@@ -4,11 +4,11 @@ import de.jerome.whatsthesongsname.spigot.WTSNMain;
 import de.jerome.whatsthesongsname.spigot.object.WTSNPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerManager {
@@ -46,7 +46,9 @@ public class PlayerManager {
     }
 
     public void unloadAllOfflinePlayers() {
-        for (WTSNPlayer wtsnPlayer : players.values()) {
+        List<WTSNPlayer> list = players.values().stream().toList();
+        for (int i = 0; i < list.size(); i++) {
+            WTSNPlayer wtsnPlayer = list.get(i);
             if (Bukkit.getOfflinePlayer(wtsnPlayer.getUuid()).isOnline()) continue;
             wtsnPlayer.save();
             players.remove(wtsnPlayer.getUuid());
