@@ -35,6 +35,14 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub LukiGamesTV Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/lukigamestv/whatsthesongsname</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains</groupId>
