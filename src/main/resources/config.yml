@@ -12,7 +12,7 @@ reward:
   command:
     enabled: true
     correct:
-      - "snowballs add %playerName% %snowballs%"
+      - "snowballs %playerName% add %snowballs%"
     wrong:
       -
 
