@@ -99,6 +99,6 @@ public class InventoryManager {
     }
 
     public @NotNull Inventory getChoseInventory(String localeCode) {
-        return choseInventories.get(localeCode);
+        return choseInventories.getOrDefault(localeCode, choseInventories.get(WTSNMain.getInstance().getConfigManager().getLanguagesDefault()));
     }
 }

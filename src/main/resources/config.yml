@@ -21,6 +21,7 @@ languages:
   languages:
     - en_us
     - de_de
+    - nl_nl
 
 bungeecord:
   enable: false

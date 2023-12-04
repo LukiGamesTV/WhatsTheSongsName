@@ -1,0 +1,47 @@
+syntax:
+  info: "&9Je kunt gebruikmaken van de volgende opdrachten:"
+  join: "&8- &6/{commandName} join &8- &7 Neem deel aan het spel"
+  leave: "&8- &6/{commandName} leave &8- &7Verlaat het spel"
+  reload: "&8- &6/{commandName} reload &8- &7Herlaad de nummers en instellingen"
+  stats:
+    own: "&8- &6/{commandName} stats &8- &7Bekĳk je statistieken"
+    other: "&8- &6/{commandName} stats [player] &8- &7Bekĳk de statistieken van een andere speler"
+  noPermission: "&8- &cJe hebt geen toestemming om subopdrachten uit te voeren"
+info: |-
+  &bWhat's the song's name? &7is een quiz waarin je nummers moet raden. Het spel is gemaakt door &6{pluginAuthors}
+  
+join:
+  alreadyInGame: "&cJe doet al mee aan het spel"
+  joined: "&aJe doet nu mee aan het spel"
+leave:
+  notInGame: "&cJe doet niet mee aan het spel"
+  left: "&aJe hebt het spel verlaten"
+reload:
+  success: "&aAlle bestanden zĳn herladen"
+  failed: "&cEr is een fout opgetreden tĳdens het herladen van de plug-in. Neem contact op met een beheerder en eventueel met de ontwikkelaar van de plug-in."
+stats:
+  own: |-
+    &9Mĳn statistieken:
+    &8- &6Aantal punten: &b{playerPoints}
+    &8- &6Aantal juiste antwoorden: &b{playerGuessedCorrectly}
+    &8- &6Aantal onjuiste antwoorden: &b{playerGuessedWrong}
+  other:
+    success: |-
+      &9Statistieken van &b{playerName}&9:
+      &8- &6Aantal punten: &b{playerPoints}
+      &8- &6Aantal juiste antwoorden: &b{playerGuessedCorrectly}
+      &8- &6Aantal onjuiste antwoorden: &b{playerGuessedWrong}
+    playerNotFound: "&c &b{playerName} &cbestaat niet!"
+choseEvaluation:
+  songName: "&9Het nummer was &b{songTitle} &9van &b{songAuthor}"
+  correctAnswer: "&aHet antwoord is juist!"
+  wrongAnswer: "&cHet antwoord is onjuist!"
+  noAnswer: "&cJe hebt geen antwoord verstuurd!"
+submitAnswer: "&9Je hebt &b{songTitle} gekozen"
+inventory:
+  title: "Kies de juiste titel:"
+  songItems:
+    displaynameColor: "6"
+    lore:
+      - "Artiest:"
+      - "{songAuthor}"
