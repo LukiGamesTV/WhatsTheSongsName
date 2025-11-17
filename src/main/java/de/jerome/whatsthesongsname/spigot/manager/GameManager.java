@@ -73,9 +73,8 @@ public class GameManager {
     }
 
     private void startMusic() {
-        for(int i = 0; i < gamePlayers.size(); i++){
-            Player player = gamePlayers.get(i);
-            if(WTSNMain.getInstance().getPlayerManager().getPlayer(player).getPlays() >= WTSNMain.getInstance().getConfigManager().getRoundLimit()){
+        for (Player player : gamePlayers) {
+            if (WTSNMain.getInstance().getPlayerManager().getPlayer(player).getPlays() >= WTSNMain.getInstance().getConfigManager().getRoundLimit()) {
                 player.sendMessage(languagesManager.getMessage(player.getLocale(), Messages.LEAVE_PLAYS_EXCEEDED));
                 leaveGame(player);
             }
@@ -132,6 +131,10 @@ public class GameManager {
         // Iterates through the "songs" list and randomly adds 3 more to "chooseTitles"
         Collections.shuffle(songs);
         for (int i = 0; i < 3; i++) {
+            if (songs.get(i) == radioSongPlayer.getSong()) {
+                choseSongs.add(songs.get(i+3));
+                continue;
+            }
             choseSongs.add(songs.get(i));
         }
 
