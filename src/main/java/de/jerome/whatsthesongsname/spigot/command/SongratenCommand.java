@@ -39,8 +39,6 @@ public class SongratenCommand implements CommandExecutor {
         } else {
             if (WTSNMain.getInstance().getGameManager().getWaitingPlayers().contains(player)) {
                 commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.JOIN_WAITING));
-            } else {
-                commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.JOIN_JOINED));
             }
         }
         return true;

@@ -48,7 +48,7 @@ public class PlayerListener implements Listener {
         List<Player> temp_waitingPlayers = new ArrayList<>(WTSNMain.getInstance().getGameManager().getWaitingPlayers());
         for (Player waitingPlayer : temp_waitingPlayers) {
             radioSongPlayer.addPlayer(waitingPlayer);
-            waitingPlayer.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage("de_de", Messages.START));
+            waitingPlayer.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage("de_de", Messages.JOIN_JOINED));
             WTSNMain.getInstance().getGameManager().removeWaitingPlayer(waitingPlayer);
             WTSNMain.getInstance().getGameManager().addGamePlayer(waitingPlayer);
         }

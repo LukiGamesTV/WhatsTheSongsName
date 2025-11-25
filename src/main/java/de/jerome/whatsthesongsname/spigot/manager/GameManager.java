@@ -234,7 +234,7 @@ public class GameManager {
             if (radioSongPlayer == null) return false;
             radioSongPlayer.addPlayer(player);
             gamePlayers.add(player);
-            player.sendMessage(languagesManager.getMessage("de_de", Messages.START));
+            player.sendMessage(languagesManager.getMessage("de_de", Messages.JOIN_JOINED));
             startGame();
         } else {
             // Adds the player to the waiting list
