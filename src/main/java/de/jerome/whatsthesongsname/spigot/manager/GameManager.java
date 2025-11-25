@@ -76,7 +76,8 @@ public class GameManager {
 
     private void startMusic() {
         if (gamePlayers == null || gamePlayers.isEmpty()) return;
-        for (Player player : gamePlayers) {
+        List<Player> temp_gameplayers = new ArrayList<>(gamePlayers);
+        for (Player player : temp_gameplayers) {
             if (WTSNMain.getInstance().getPlayerManager().getPlayer(player).getPlays() >= WTSNMain.getInstance().getConfigManager().getRoundLimit()) {
                 player.sendMessage(languagesManager.getMessage("de_de", Messages.LEAVE_PLAYS_EXCEEDED));
                 leaveGame(player);
@@ -87,6 +88,7 @@ public class GameManager {
 
         radioSongPlayer.setPlaying(true);
         autoStopMusic();
+        temp_gameplayers.clear();
     }
 
     private void stopMusic() {
