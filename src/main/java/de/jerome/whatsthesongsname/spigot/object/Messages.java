@@ -15,6 +15,7 @@ public enum Messages {
     JOIN_ALREADY_IN_GAME("join.alreadyInGame"),
     JOIN_JOINED("join.joined"),
     JOIN_WAITING("join.waiting"),
+    START("start"),
 
     LEAVE_NOT_IN_GAME("leave.notInGame"),
     LEAVE_LEFT("leave.left"),

@@ -11,6 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class PlayerListener implements Listener {
 
     public PlayerListener() {
@@ -41,10 +45,13 @@ public class PlayerListener implements Listener {
         if (radioSongPlayer != WTSNMain.getInstance().getSongManager().getRadioSongPlayer()) return;
         if (WTSNMain.getInstance().getGameManager().getWaitingPlayers() == null || WTSNMain.getInstance().getGameManager().getWaitingPlayers().isEmpty())
             return;
-        for (Player waitingPlayer : WTSNMain.getInstance().getGameManager().getWaitingPlayers()) {
+        List<Player> temp_waitingPlayers = new ArrayList<>(WTSNMain.getInstance().getGameManager().getWaitingPlayers());
+        for (Player waitingPlayer : temp_waitingPlayers) {
             radioSongPlayer.addPlayer(waitingPlayer);
+            waitingPlayer.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage("de_de", Messages.START));
             WTSNMain.getInstance().getGameManager().removeWaitingPlayer(waitingPlayer);
             WTSNMain.getInstance().getGameManager().addGamePlayer(waitingPlayer);
         }
+        temp_waitingPlayers.clear();
     }
 }

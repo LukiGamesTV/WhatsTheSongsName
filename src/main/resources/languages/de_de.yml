@@ -14,6 +14,7 @@ join:
   alreadyInGame: "&cDu bist bereits im Spiel"
   joined: "&aDu hast das Spiel erfolgreich betreten"
   waiting: "&9Warte auf den nächsten Song..."
+start: "&aDie Runde Songraten hat begonnen!"
 leave:
   notInGame: "&cDu bist nicht im Spiel"
   left: "&aDu hast das Spiel erfolgreich verlassen"

@@ -234,6 +234,7 @@ public class GameManager {
             if (radioSongPlayer == null) return false;
             radioSongPlayer.addPlayer(player);
             gamePlayers.add(player);
+            player.sendMessage(languagesManager.getMessage("de_de", Messages.START));
             startGame();
         } else {
             // Adds the player to the waiting list
@@ -267,7 +268,20 @@ public class GameManager {
         radioSongPlayer.removePlayer(player);
 
         // Stop the game if there are no more players in it
-        if (running && gamePlayers.isEmpty() && waitingPlayers.isEmpty()) stopGame();
+        if (running && gamePlayers.isEmpty()){
+            stopGame();
+
+            if (!waitingPlayers.isEmpty()) {
+                // Moves waiting players into the game
+                List<Player> playersToMove = new ArrayList<>(waitingPlayers);
+                for (Player waitingPlayer : playersToMove) {
+                    waitingPlayers.remove(waitingPlayer);
+                    joinGame(waitingPlayer);
+                }
+                playersToMove.clear();
+            }
+        }
+
         return true;
     }
 
