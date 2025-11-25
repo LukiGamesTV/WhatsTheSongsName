@@ -24,6 +24,7 @@ public class GameManager {
     private static final SongManager songManager = WTSNMain.getInstance().getSongManager();
 
     private final ArrayList<Player> gamePlayers;
+    private final ArrayList<Player> waitingPlayers;
     private final HashMap<Player, String> playerAnswers;
     private boolean ready, running, allowInventoryClose;
 
@@ -32,6 +33,7 @@ public class GameManager {
 
     public GameManager() {
         gamePlayers = new ArrayList<>();
+        waitingPlayers = new ArrayList<>();
         playerAnswers = new HashMap<>();
 
         reload();
@@ -73,9 +75,10 @@ public class GameManager {
     }
 
     private void startMusic() {
+        if (gamePlayers == null || gamePlayers.isEmpty()) return;
         for (Player player : gamePlayers) {
             if (WTSNMain.getInstance().getPlayerManager().getPlayer(player).getPlays() >= WTSNMain.getInstance().getConfigManager().getRoundLimit()) {
-                player.sendMessage(languagesManager.getMessage(player.getLocale(), Messages.LEAVE_PLAYS_EXCEEDED));
+                player.sendMessage(languagesManager.getMessage("de_de", Messages.LEAVE_PLAYS_EXCEEDED));
                 leaveGame(player);
             }
         }
@@ -146,7 +149,7 @@ public class GameManager {
 
         // Opens ChoseInventory
         for (Player gamePlayer : gamePlayers)
-            gamePlayer.openInventory(inventoryManager.getChoseInventory(gamePlayer.getLocale()));
+            gamePlayer.openInventory(inventoryManager.getChoseInventory("de_de"));
 
         // Starts evaluating the songs after a variable time
         Bukkit.getScheduler().runTaskLater(WTSNMain.getInstance(), this::evaluateChoosing, 20L * WTSNMain.getInstance().getConfigManager().getChoseTime());
@@ -172,27 +175,27 @@ public class GameManager {
 
             WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addPlay();
 
-            gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_SONG_NAME)
+            gamePlayer.sendMessage(languagesManager.getMessage("de_de", Messages.CHOSE_EVALUATION_SONG_NAME)
                     .replaceAll("\\{songTitle}", song.getTitle())
                     .replaceAll("\\{songAuthor}", song.getAuthor()));
 
             // Evaluate song selection
             if (!playerAnswers.containsKey(gamePlayer)) {
                 // No answer by player
-                gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_NO_ANSWER));
+                gamePlayer.sendMessage(languagesManager.getMessage("de_de", Messages.CHOSE_EVALUATION_NO_ANSWER));
                 continue;
             }
 
             if (!playerAnswers.get(gamePlayer).equals(song.getTitle())) {
                 // Wrong answer
                 WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addGuessedWrong();
-                gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_WRONG_ANSWER));
+                gamePlayer.sendMessage(languagesManager.getMessage("de_de", Messages.CHOSE_EVALUATION_WRONG_ANSWER));
                 continue;
             }
 
             // Correct answer
             WTSNMain.getInstance().getPlayerManager().getPlayer(gamePlayer).addGuessedCorrectly();
-            gamePlayer.sendMessage(languagesManager.getMessage(gamePlayer.getLocale(), Messages.CHOSE_EVALUATION_CORRECT_ANSWER).replaceAll("\\{snowballs}", WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect() + ""));
+            gamePlayer.sendMessage(languagesManager.getMessage("de_de", Messages.CHOSE_EVALUATION_CORRECT_ANSWER).replaceAll("\\{snowballs}", WTSNMain.getInstance().getConfigManager().getRewardSnowballsCorrect() + ""));
         }
 
         // Disables inventory closing again
@@ -221,15 +224,21 @@ public class GameManager {
 
         // Checks if the player is already in the game
         if (gamePlayers.contains(player)) return false;
-        gamePlayers.add(player);
 
-        // Adds the player to the RadioSongPlayer
-        RadioSongPlayer radioSongPlayer = WTSNMain.getInstance().getSongManager().getRadioSongPlayer();
-        if (radioSongPlayer == null) return false;
-        radioSongPlayer.addPlayer(player);
+        // Checks if the player is already in the waiting list
+        if (waitingPlayers.contains(player)) return false;
 
         // Starts the game if it's not already started
-        if (!running) startGame();
+        if (!running) {
+            RadioSongPlayer radioSongPlayer = WTSNMain.getInstance().getSongManager().getRadioSongPlayer();
+            if (radioSongPlayer == null) return false;
+            radioSongPlayer.addPlayer(player);
+            gamePlayers.add(player);
+            startGame();
+        } else {
+            // Adds the player to the waiting list
+            waitingPlayers.add(player);
+        }
         return true;
     }
 
@@ -240,6 +249,11 @@ public class GameManager {
      * @return if success
      */
     public boolean leaveGame(@NotNull Player player) {
+        if (waitingPlayers.contains(player)) {
+            waitingPlayers.remove(player);
+            return true;
+        }
+
         // Checks if the player is even in the game
         if (!gamePlayers.contains(player)) return false;
         gamePlayers.remove(player);
@@ -253,7 +267,7 @@ public class GameManager {
         radioSongPlayer.removePlayer(player);
 
         // Stop the game if there are no more players in it
-        if (running && gamePlayers.isEmpty()) stopGame();
+        if (running && gamePlayers.isEmpty() && waitingPlayers.isEmpty()) stopGame();
         return true;
     }
 
@@ -300,5 +314,30 @@ public class GameManager {
      */
     public @NotNull HashMap<Player, String> getPlayerAnswers() {
         return playerAnswers;
+    }
+
+    /**
+     * Get all players that are waiting to join the game
+     *
+     * @return the waiting players
+     */
+    public ArrayList<Player> getWaitingPlayers() {
+        return waitingPlayers;
+    }
+
+    public void addWaitingPlayer(@NotNull Player player) {
+        waitingPlayers.add(player);
+    }
+
+    public void removeWaitingPlayer(@NotNull Player player) {
+        waitingPlayers.remove(player);
+    }
+
+    public void addGamePlayer(@NotNull Player player) {
+        gamePlayers.add(player);
+    }
+
+    public void removeGamePlayer(@NotNull Player player) {
+        gamePlayers.remove(player);
     }
 }

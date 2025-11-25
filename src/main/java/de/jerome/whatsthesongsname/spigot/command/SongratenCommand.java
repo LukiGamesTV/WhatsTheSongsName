@@ -17,8 +17,7 @@ public class SongratenCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String commandName, @NotNull String[] strings) {
-        String localeCode = null;
-        if (commandSender instanceof Player player) localeCode = player.getLocale();
+        String localeCode = "de_de";
 
         // Is he a player?
         if (!(commandSender instanceof Player player)) {
@@ -27,7 +26,7 @@ public class SongratenCommand implements CommandExecutor {
         }
 
         if(WTSNMain.getInstance().getPlayerManager().getPlayer(player).getPlays() >= WTSNMain.getInstance().getConfigManager().getRoundLimit()){
-            player.sendMessage(languagesManager.getMessage(player.getLocale(), Messages.LEAVE_PLAYS_EXCEEDED));
+            player.sendMessage(languagesManager.getMessage(localeCode, Messages.LEAVE_PLAYS_EXCEEDED));
             return true;
         }
 
@@ -38,8 +37,11 @@ public class SongratenCommand implements CommandExecutor {
             WTSNMain.getInstance().getGameManager().leaveGame(player);
             commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.LEAVE_LEFT));
         } else {
-
-            commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.JOIN_JOINED));
+            if (WTSNMain.getInstance().getGameManager().getWaitingPlayers().contains(player)) {
+                commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.JOIN_WAITING));
+            } else {
+                commandSender.sendMessage(languagesManager.getMessage(localeCode, Messages.JOIN_JOINED));
+            }
         }
         return true;
     }

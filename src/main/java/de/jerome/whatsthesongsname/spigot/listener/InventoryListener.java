@@ -47,7 +47,7 @@ public class InventoryListener implements Listener {
 
         // Saves the player's answer and closes the inventory
         WTSNMain.getInstance().getGameManager().getPlayerAnswers().put(player, displayName);
-        player.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage(player.getLocale(), Messages.SUBMIT_ANSWER)
+        player.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage("de_de", Messages.SUBMIT_ANSWER)
                 .replaceAll("\\{songTitle}", displayName));
 
         event.getView().close();

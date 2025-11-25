@@ -1,5 +1,7 @@
 package de.jerome.whatsthesongsname.spigot.listener;
 
+import com.xxmicloxx.NoteBlockAPI.event.SongNextEvent;
+import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
 import de.jerome.whatsthesongsname.spigot.WTSNMain;
 import de.jerome.whatsthesongsname.spigot.object.Messages;
 import org.bukkit.Bukkit;
@@ -24,7 +26,7 @@ public class PlayerListener implements Listener {
         if (!player.hasPermission("wtsn.play")) return;
 
         WTSNMain.getInstance().getGameManager().joinGame(player);
-        player.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage(player.getLocale(), Messages.JOIN_JOINED));
+        player.sendMessage(WTSNMain.getInstance().getLanguagesManager().getMessage("de_de", Messages.JOIN_JOINED));
     }
 
     @EventHandler
@@ -33,4 +35,16 @@ public class PlayerListener implements Listener {
         WTSNMain.getInstance().getPlayerManager().getPlayer(event.getPlayer()).save();
     }
 
+    @EventHandler
+    public void handleNextSong(SongNextEvent event) {
+        if (!(event.getSongPlayer() instanceof RadioSongPlayer radioSongPlayer)) return;
+        if (radioSongPlayer != WTSNMain.getInstance().getSongManager().getRadioSongPlayer()) return;
+        if (WTSNMain.getInstance().getGameManager().getWaitingPlayers() == null || WTSNMain.getInstance().getGameManager().getWaitingPlayers().isEmpty())
+            return;
+        for (Player waitingPlayer : WTSNMain.getInstance().getGameManager().getWaitingPlayers()) {
+            radioSongPlayer.addPlayer(waitingPlayer);
+            WTSNMain.getInstance().getGameManager().removeWaitingPlayer(waitingPlayer);
+            WTSNMain.getInstance().getGameManager().addGamePlayer(waitingPlayer);
+        }
+    }
 }

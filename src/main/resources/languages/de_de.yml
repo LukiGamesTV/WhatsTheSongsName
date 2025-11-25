@@ -13,6 +13,7 @@ info: |-
 join:
   alreadyInGame: "&cDu bist bereits im Spiel"
   joined: "&aDu hast das Spiel erfolgreich betreten"
+  waiting: "&9Warte auf den nächsten Song..."
 leave:
   notInGame: "&cDu bist nicht im Spiel"
   left: "&aDu hast das Spiel erfolgreich verlassen"
@@ -42,7 +43,7 @@ choseEvaluation:
   correctAnswer: "&aDeine Antwort war richtig! Dafür hast du {snowballs} Schnebälle erhalten."
   wrongAnswer: "&cDeine Antwort war falsch!"
   noAnswer: "&cDu hast keine Antwort abgegeben!"
-submitAnswer: "&9Du hast den Song &b{songTitle} ausgewählt"
+submitAnswer: "&9Du hast den Song &b{songTitle} &9ausgewählt"
 inventory:
   title: "Wähle den richtigen Titel:"
   songItems:

@@ -17,7 +17,7 @@ reward:
       -
 
 languages:
-  default: "en_us"
+  default: "de_de"
   languages:
     - en_us
     - de_de
