@@ -5,12 +5,14 @@ import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
 import de.jerome.whatsthesongsname.spigot.WTSNMain;
 import de.jerome.whatsthesongsname.spigot.object.Messages;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ public class GameManager {
     private final ArrayList<Player> waitingPlayers;
     private final HashMap<Player, String> playerAnswers;
     private boolean ready, running, allowInventoryClose;
+    private LocalDateTime startPlaying, startChoosing;
 
     private BukkitTask stopMusicTask;
 
@@ -66,6 +69,9 @@ public class GameManager {
         gamePlayers.clear();
         playerAnswers.clear();
 
+        startChoosing = null;
+        startPlaying = null;
+
         if (stopMusicTask != null) {
             stopMusicTask.cancel();
             stopMusicTask = null;
@@ -83,19 +89,22 @@ public class GameManager {
                 leaveGame(player);
             }
         }
+
+        temp_gameplayers.clear();
+        startPlaying = LocalDateTime.now();
         RadioSongPlayer radioSongPlayer = WTSNMain.getInstance().getSongManager().getRadioSongPlayer();
         if (radioSongPlayer == null) return;
 
         radioSongPlayer.setPlaying(true);
-        autoStopMusic();
-        temp_gameplayers.clear();
+        //autoStopMusic();
     }
 
-    private void stopMusic() {
+    public void stopMusic() {
         RadioSongPlayer radioSongPlayer = WTSNMain.getInstance().getSongManager().getRadioSongPlayer();
         if (radioSongPlayer == null) return;
 
         // Pause song playback
+        startPlaying = null;
         radioSongPlayer.setPlaying(false);
 
         // Selects the next song
@@ -117,8 +126,10 @@ public class GameManager {
         }, 20L * WTSNMain.getInstance().getConfigManager().getMusicPlayTime());
     }
 
-    private void startInventoryChose() {
+    public void startInventoryChose() {
         // Inventory setup
+
+        startChoosing = LocalDateTime.now();
 
         // A temporary list containing the songs available for selection in the inventory
         List<Song> choseSongs = new ArrayList<>();
@@ -154,10 +165,10 @@ public class GameManager {
             gamePlayer.openInventory(inventoryManager.getChoseInventory("de_de"));
 
         // Starts evaluating the songs after a variable time
-        Bukkit.getScheduler().runTaskLater(WTSNMain.getInstance(), this::evaluateChoosing, 20L * WTSNMain.getInstance().getConfigManager().getChoseTime());
+        //Bukkit.getScheduler().runTaskLater(WTSNMain.getInstance(), this::evaluateChoosing, 20L * WTSNMain.getInstance().getConfigManager().getChoseTime());
     }
 
-    private void evaluateChoosing() {
+    public void evaluateChoosing() {
         // Gets the correct song
         RadioSongPlayer radioSongPlayer = WTSNMain.getInstance().getSongManager().getRadioSongPlayer();
         if (radioSongPlayer == null) return;
@@ -165,6 +176,7 @@ public class GameManager {
 
         // So that the inventory is not reopened by the InventoryCloseEvent
         allowInventoryClose = true;
+        startChoosing = null;
 
         for (Player gamePlayer : gamePlayers) {
             // Close ChoseInventory
@@ -287,6 +299,12 @@ public class GameManager {
         return true;
     }
 
+    public void sendActionBar(List<Player> playerList, String message, int timeInSeconds) {
+        for (Player player : playerList) {
+            player.sendActionBar(Component.text(message.replaceAll("\\{timeLeft}", timeInSeconds + "")));
+        }
+    }
+
     /**
      * Indicates whether the game can be started and all the conditions provided for it are met
      *
@@ -339,6 +357,14 @@ public class GameManager {
      */
     public ArrayList<Player> getWaitingPlayers() {
         return waitingPlayers;
+    }
+
+    public LocalDateTime getStartChoosing() {
+        return startChoosing;
+    }
+
+    public LocalDateTime getStartPlaying() {
+        return startPlaying;
     }
 
     public void addWaitingPlayer(@NotNull Player player) {

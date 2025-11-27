@@ -18,6 +18,10 @@ leave:
   notInGame: "&cDu bist nicht im Spiel"
   left: "&aDu hast das Spiel erfolgreich verlassen"
   playsExceeded: "&cDu hast deine heutigen Versuche aufgebraucht"
+actionbar:
+  playing: "&eRate den Song! Du hast noch &b{timeLeft}s &eZeit"
+  choosing: "&eDu hast noch &b{timeLeft}s &eZeit einen Titel auszuwählen"
+  waiting: "&eWarte auf den nächsten Song..."
 reload:
   success: "&aAlle Dateien wurden erfolgreich neu geladen"
   failed: "&cReload ist derzeit nicht implementiert. Starte deinen Server neu!"

@@ -8,11 +8,16 @@ import de.jerome.whatsthesongsname.spigot.manager.*;
 import de.jerome.whatsthesongsname.spigot.object.Messages;
 import de.jerome.whatsthesongsname.spigot.util.UUIDFetcher;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
+
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 public class WTSNMain extends JavaPlugin {
 
@@ -43,16 +48,56 @@ public class WTSNMain extends JavaPlugin {
         registerListeners();
         registerChannel();
 
+        FileConfiguration data = getInstance().getFileManager().getConfig().getFileConfiguration();
+        String lastTodayString = data.getString("lastToday");
+        if (lastTodayString == null) {
+            today = LocalDate.now();
+            saveTodayToConfig(data);
+        } else today = LocalDate.parse(lastTodayString, ISO_LOCAL_DATE);
+
         Bukkit.getAsyncScheduler().runAtFixedRate(getInstance(), scheduledTask -> {
             LocalDate now = LocalDate.now();
             if(today.isBefore(now)){
                 today = now;
+                saveTodayToConfig(data);
                 WTSNMain.getInstance().getPlayerManager().loadPlayers();
                 WTSNMain.getInstance().getPlayerManager().resetPlaysForAll();
                 WTSNMain.getInstance().getPlayerManager().unloadAllOfflinePlayers();
                 Bukkit.getConsoleSender().sendMessage(getLanguagesManager().getMessage("de_de", Messages.STATS_PLAYS_RESET));
             }
-        }, 1L, 1L, TimeUnit.MINUTES);
+
+            LocalDateTime nowTime = LocalDateTime.now();
+
+            if (getGameManager().isRunning()) {
+                if (getGameManager().getStartPlaying() != null && getGameManager().getStartChoosing() == null) {
+                    int seconds = Duration.between(getGameManager().getStartPlaying(), nowTime).toSecondsPart();
+                    int timeLeft = getConfigManager().getMusicPlayTime() - seconds;
+                    getGameManager().sendActionBar(getGameManager().getGamePlayers(), languagesManager.getMessage("de_de", Messages.ACTIONBAR_PLAYING), timeLeft);
+
+                    if (timeLeft <= 0) {
+                        // stops the music
+                        getGameManager().stopMusic();
+
+                        // opens the inventory for selecting the song
+                        Bukkit.getScheduler().runTask(getInstance(), () -> getGameManager().startInventoryChose());
+                    }
+                }
+
+                if (getGameManager().getStartChoosing() != null && getGameManager().getStartPlaying() == null) {
+                    int seconds = Duration.between(getGameManager().getStartChoosing(), nowTime).toSecondsPart();
+                    int timeLeft = getConfigManager().getChoseTime() - seconds;
+                    getGameManager().sendActionBar(getGameManager().getGamePlayers(), languagesManager.getMessage("de_de", Messages.ACTIONBAR_CHOOSING), timeLeft);
+
+                    if (timeLeft <= 0) {
+                        //Starts evaluating the songs
+                        Bukkit.getScheduler().runTask(WTSNMain.getInstance(), () -> getGameManager().evaluateChoosing());
+                    }
+                }
+
+                getGameManager().sendActionBar(getGameManager().getWaitingPlayers(), languagesManager.getMessage("de_de", Messages.ACTIONBAR_WAITING), 0);
+            }
+
+        }, 1L, 1L, TimeUnit.SECONDS);
     }
 
     @Override
@@ -108,6 +153,10 @@ public class WTSNMain extends JavaPlugin {
 
     private void registerChannel() {
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+    }
+
+    private void saveTodayToConfig(FileConfiguration data) {
+        data.set("lastToday", today.format(ISO_LOCAL_DATE));
     }
 
     public @NotNull ConfigManager getConfigManager() {

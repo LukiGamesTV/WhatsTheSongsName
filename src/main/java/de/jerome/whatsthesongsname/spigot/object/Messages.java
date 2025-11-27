@@ -20,6 +20,10 @@ public enum Messages {
     LEAVE_LEFT("leave.left"),
     LEAVE_PLAYS_EXCEEDED("leave.playsExceeded"),
 
+    ACTIONBAR_PLAYING("actionbar.playing"),
+    ACTIONBAR_CHOOSING("actionbar.choosing"),
+    ACTIONBAR_WAITING("actionbar.waiting"),
+
     RELOAD_SUCCESS("reload.success"),
     RELOAD_FAILED("reload.failed"),
 
